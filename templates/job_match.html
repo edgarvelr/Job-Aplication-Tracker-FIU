@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Job Match | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Job Match</p>
+      <h1>Compare your skills to tracked roles</h1>
+      <p class="hero-copy">Enter comma-separated skills to rank jobs by match percentage.</p>
+    </div>
+  </section>
+
+  <form class="form-card single-column" method="post">
+    <label>Your Skills
+      <textarea name="skills" rows="4" placeholder="python, sql, flask, data analysis">{{ entered_skills }}</textarea>
+    </label>
+    <div class="form-actions">
+      <button class="button" type="submit">Calculate Matches</button>
+    </div>
+  </form>
+
+  {% if results %}
+    <section class="match-grid">
+      {% for result in results %}
+        <article class="match-card">
+          <div class="match-score">{{ result.score }}%</div>
+          <h2><a href="{{ url_for('main.job_detail', job_id=result.job_id) }}">{{ result.title }}</a></h2>
+          <p>{{ result.company_name }} • {{ result.location or "Location not set" }}</p>
+          <p><strong>Matched:</strong> {{ result.matched|join(", ") if result.matched else "None" }}</p>
+          <p><strong>Missing:</strong> {{ result.missing|join(", ") if result.missing else "None" }}</p>
+        </article>
+      {% endfor %}
+    </section>
+  {% endif %}
+{% endblock %}

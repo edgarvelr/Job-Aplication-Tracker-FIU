@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ contact.full_name }} | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="detail-header">
+    <div>
+      <p class="eyebrow">Contact Detail</p>
+      <h1>{{ contact.full_name }}</h1>
+      <p>{{ contact.company_name }} • {{ contact.role_title or "Role not set" }}</p>
+    </div>
+    <a class="button" href="{{ url_for('main.contact_edit', contact_id=contact.contact_id) }}">Edit Contact</a>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <h2>Contact Card</h2>
+      <p><strong>Email:</strong> {{ contact.email or "—" }}</p>
+      <p><strong>Phone:</strong> {{ contact.phone or "—" }}</p>
+      <p><strong>Relationship:</strong> {{ contact.relationship_type or "—" }}</p>
+      <p><strong>LinkedIn:</strong> {{ contact.linkedin_url or "—" }}</p>
+      <p><strong>Notes:</strong> {{ contact.notes or "—" }}</p>
+    </article>
+    <article class="panel">
+      <h2>Topics Discussed</h2>
+      {% if contact.topics_discussed %}
+        <ul class="detail-list">
+          {% for topic in contact.topics_discussed %}
+            <li>{{ topic }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No topics recorded yet.</p>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

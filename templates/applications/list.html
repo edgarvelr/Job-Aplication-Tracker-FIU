@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Applications | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Applications</p>
+      <h1>Application pipeline</h1>
+    </div>
+    <a class="button" href="{{ url_for('main.application_create') }}">Add Application</a>
+  </section>
+
+  {% if applications %}
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th>Job</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Applied Date</th>
+            <th>Source</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in applications %}
+            <tr>
+              <td><a href="{{ url_for('main.application_detail', application_id=application.application_id) }}">{{ application.job_title }}</a></td>
+              <td>{{ application.company_name }}</td>
+              <td>{{ application.status }}</td>
+              <td>{{ application.applied_date or "—" }}</td>
+              <td>{{ application.source or "—" }}</td>
+              <td class="actions">
+                <a href="{{ url_for('main.application_edit', application_id=application.application_id) }}">Edit</a>
+                <form method="post" action="{{ url_for('main.application_delete', application_id=application.application_id) }}">
+                  <button type="submit" onclick="return confirm('Delete this application?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <section class="empty-state">
+      <h2>No applications yet</h2>
+      <p>Track each stage of your job search here.</p>
+    </section>
+  {% endif %}
+{% endblock %}

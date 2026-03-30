@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if editing else "New" }} Company | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Companies</p>
+      <h1>{{ "Edit company" if editing else "Add company" }}</h1>
+    </div>
+  </section>
+
+  <form class="form-card" method="post">
+    <label>Company Name
+      <input type="text" name="name" value="{{ company.name }}" required>
+    </label>
+    <label>Industry
+      <input type="text" name="industry" value="{{ company.industry }}">
+    </label>
+    <label>Location
+      <input type="text" name="location" value="{{ company.location }}">
+    </label>
+    <label>Website
+      <input type="url" name="website" value="{{ company.website }}">
+    </label>
+    <label>Company Size
+      <input type="text" name="company_size" value="{{ company.company_size }}">
+    </label>
+    <label>Tags
+      <input type="text" name="tags" value="{{ company.tags }}" placeholder="remote, startup, fintech">
+    </label>
+    <label class="full-width">Notes
+      <textarea name="notes" rows="5">{{ company.notes }}</textarea>
+    </label>
+    <div class="form-actions full-width">
+      <button class="button" type="submit">{{ "Save Changes" if editing else "Create Company" }}</button>
+      <a class="button button-secondary" href="{{ url_for('main.company_list') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

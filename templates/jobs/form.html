@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if editing else "New" }} Job | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Jobs</p>
+      <h1>{{ "Edit job" if editing else "Add job" }}</h1>
+    </div>
+  </section>
+
+  <form class="form-card" method="post">
+    <label>Company
+      <select name="company_id" required>
+        <option value="">Select a company</option>
+        {% for company in companies %}
+          <option value="{{ company.company_id }}" {% if job.company_id == company.company_id|string %}selected{% endif %}>{{ company.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Job Title
+      <input type="text" name="title" value="{{ job.title }}" required>
+    </label>
+    <label>Location
+      <input type="text" name="location" value="{{ job.location }}">
+    </label>
+    <label>Salary Range
+      <input type="text" name="salary_range" value="{{ job.salary_range }}">
+    </label>
+    <label>Employment Type
+      <input type="text" name="employment_type" value="{{ job.employment_type }}" placeholder="Full-time, Internship">
+    </label>
+    <label>Posted Date
+      <input type="date" name="posted_date" value="{{ job.posted_date }}" required>
+    </label>
+    <label>Application Deadline
+      <input type="date" name="application_deadline" value="{{ job.application_deadline }}">
+    </label>
+    <label class="full-width">Description
+      <textarea name="description" rows="5">{{ job.description }}</textarea>
+    </label>
+    <label class="full-width">Required Skills
+      <textarea name="required_skills" rows="5" placeholder="One skill per line">{{ job.required_skills }}</textarea>
+    </label>
+    <label class="full-width">Preferred Skills
+      <textarea name="preferred_skills" rows="5" placeholder="One skill per line">{{ job.preferred_skills }}</textarea>
+    </label>
+    <div class="form-actions full-width">
+      <button class="button" type="submit">{{ "Save Changes" if editing else "Create Job" }}</button>
+      <a class="button button-secondary" href="{{ url_for('main.job_list') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Overview</p>
+      <h1>Track your search like a pipeline, not a spreadsheet.</h1>
+      <p class="hero-copy">Manage companies, open roles, active applications, and networking contacts in one place.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="button" href="{{ url_for('main.application_create') }}">Add Application</a>
+      <a class="button button-secondary" href="{{ url_for('main.job_match') }}">Run Job Match</a>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <article class="stat-card"><span>Total Companies</span><strong>{{ stats.companies }}</strong></article>
+    <article class="stat-card"><span>Tracked Jobs</span><strong>{{ stats.jobs }}</strong></article>
+    <article class="stat-card"><span>Applications</span><strong>{{ stats.applications }}</strong></article>
+    <article class="stat-card"><span>Contacts</span><strong>{{ stats.contacts }}</strong></article>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <div class="panel-heading">
+        <h2>Application Status</h2>
+      </div>
+      {% if by_status %}
+        <ul class="status-list">
+          {% for row in by_status %}
+            <li><span>{{ row.status }}</span><strong>{{ row.total }}</strong></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No applications yet. Add your first one to populate this summary.</p>
+      {% endif %}
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading">
+        <h2>Recent Applications</h2>
+      </div>
+      {% if recent_applications %}
+        <ul class="timeline">
+          {% for application in recent_applications %}
+            <li>
+              <a href="{{ url_for('main.application_detail', application_id=application.application_id) }}">{{ application.job_title }}</a>
+              <span>{{ application.company_name }} • {{ application.status }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">Your recent application activity will show up here.</p>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

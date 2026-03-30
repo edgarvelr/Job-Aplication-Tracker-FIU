@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Companies | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Companies</p>
+      <h1>Target employers</h1>
+    </div>
+    <a class="button" href="{{ url_for('main.company_create') }}">Add Company</a>
+  </section>
+
+  {% if companies %}
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Industry</th>
+            <th>Location</th>
+            <th>Website</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for company in companies %}
+            <tr>
+              <td><a href="{{ url_for('main.company_detail', company_id=company.company_id) }}">{{ company.name }}</a></td>
+              <td>{{ company.industry or "—" }}</td>
+              <td>{{ company.location or "—" }}</td>
+              <td>
+                {% if company.website %}
+                  <a href="{{ company.website }}" target="_blank" rel="noreferrer">Visit</a>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td class="actions">
+                <a href="{{ url_for('main.company_edit', company_id=company.company_id) }}">Edit</a>
+                <form method="post" action="{{ url_for('main.company_delete', company_id=company.company_id) }}">
+                  <button type="submit" onclick="return confirm('Delete this company and related records?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <section class="empty-state">
+      <h2>No companies yet</h2>
+      <p>Start by adding the organizations you want to track.</p>
+    </section>
+  {% endif %}
+{% endblock %}

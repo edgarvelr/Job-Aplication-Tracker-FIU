@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ company.name }} | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="detail-header">
+    <div>
+      <p class="eyebrow">Company Detail</p>
+      <h1>{{ company.name }}</h1>
+      <p>{{ company.industry or "Industry not set" }} • {{ company.location or "Location not set" }}</p>
+    </div>
+    <a class="button" href="{{ url_for('main.company_edit', company_id=company.company_id) }}">Edit Company</a>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <h2>Profile</h2>
+      <p><strong>Website:</strong> {{ company.website or "—" }}</p>
+      <p><strong>Size:</strong> {{ company.company_size or "—" }}</p>
+      <p><strong>Notes:</strong> {{ company.notes or "—" }}</p>
+    </article>
+    <article class="panel">
+      <h2>Related Jobs</h2>
+      {% if jobs %}
+        <ul class="detail-list">
+          {% for job in jobs %}
+            <li><a href="{{ url_for('main.job_detail', job_id=job.job_id) }}">{{ job.title }}</a> • {{ job.location or "—" }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No jobs linked to this company yet.</p>
+      {% endif %}
+    </article>
+    <article class="panel">
+      <h2>Contacts</h2>
+      {% if contacts %}
+        <ul class="detail-list">
+          {% for contact in contacts %}
+            <li><a href="{{ url_for('main.contact_detail', contact_id=contact.contact_id) }}">{{ contact.full_name }}</a> • {{ contact.relationship_type or "—" }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No contacts recorded yet.</p>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

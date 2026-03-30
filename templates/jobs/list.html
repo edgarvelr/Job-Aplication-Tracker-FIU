@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Jobs | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Jobs</p>
+      <h1>Open roles</h1>
+    </div>
+    <a class="button" href="{{ url_for('main.job_create') }}">Add Job</a>
+  </section>
+
+  {% if jobs %}
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Salary</th>
+            <th>Posted</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in jobs %}
+            <tr>
+              <td><a href="{{ url_for('main.job_detail', job_id=job.job_id) }}">{{ job.title }}</a></td>
+              <td>{{ job.company_name }}</td>
+              <td>{{ job.location or "—" }}</td>
+              <td>{{ job.salary_range or "—" }}</td>
+              <td>{{ job.posted_date or "—" }}</td>
+              <td class="actions">
+                <a href="{{ url_for('main.job_edit', job_id=job.job_id) }}">Edit</a>
+                <form method="post" action="{{ url_for('main.job_delete', job_id=job.job_id) }}">
+                  <button type="submit" onclick="return confirm('Delete this job and its applications?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <section class="empty-state">
+      <h2>No jobs tracked yet</h2>
+      <p>Add a company first, then create roles tied to that employer.</p>
+    </section>
+  {% endif %}
+{% endblock %}

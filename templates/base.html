@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Job Application Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Career Command Center</p>
+        <a class="brand" href="{{ url_for('main.dashboard') }}">Job Application Tracker</a>
+      </div>
+      <nav class="nav-links">
+        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('main.company_list') }}">Companies</a>
+        <a href="{{ url_for('main.job_list') }}">Jobs</a>
+        <a href="{{ url_for('main.application_list') }}">Applications</a>
+        <a href="{{ url_for('main.contact_list') }}">Contacts</a>
+        <a href="{{ url_for('main.job_match') }}">Job Match</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <section class="flash-stack">
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </section>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

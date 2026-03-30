@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Application #{{ application.application_id }} | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="detail-header">
+    <div>
+      <p class="eyebrow">Application Detail</p>
+      <h1>{{ application.job_title }}</h1>
+      <p>{{ application.company_name }} • {{ application.status }}</p>
+    </div>
+    <a class="button" href="{{ url_for('main.application_edit', application_id=application.application_id) }}">Edit Application</a>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <h2>Application Record</h2>
+      <p><strong>Applied Date:</strong> {{ application.applied_date or "—" }}</p>
+      <p><strong>Source:</strong> {{ application.source or "—" }}</p>
+      <p><strong>Resume Version:</strong> {{ application.resume_version or "—" }}</p>
+      <p><strong>Cover Letter:</strong> {{ "Yes" if application.cover_letter_used else "No" }}</p>
+      <p><strong>Notes:</strong> {{ application.notes or "—" }}</p>
+    </article>
+    <article class="panel">
+      <h2>Follow-Up Tasks</h2>
+      {% if application.follow_up_tasks %}
+        <ul class="detail-list">
+          {% for task in application.follow_up_tasks %}
+            <li>{{ task }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No follow-up tasks listed.</p>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

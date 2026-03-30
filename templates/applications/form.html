@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if editing else "New" }} Application | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Applications</p>
+      <h1>{{ "Edit application" if editing else "Add application" }}</h1>
+    </div>
+  </section>
+
+  <form class="form-card" method="post">
+    <label>Job
+      <select name="job_id" required>
+        <option value="">Select a job</option>
+        {% for job in jobs %}
+          <option value="{{ job.job_id }}" {% if application.job_id == job.job_id|string %}selected{% endif %}>{{ job.title }} — {{ job.company_name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Status
+      <select name="status" required>
+        {% for status in statuses %}
+          <option value="{{ status }}" {% if application.status == status %}selected{% endif %}>{{ status }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Applied Date
+      <input type="date" name="applied_date" value="{{ application.applied_date }}" required>
+    </label>
+    <label>Source
+      <input type="text" name="source" value="{{ application.source }}" placeholder="LinkedIn, referral, company site">
+    </label>
+    <label>Resume Version
+      <input type="text" name="resume_version" value="{{ application.resume_version }}">
+    </label>
+    <label>Cover Letter Used
+      <select name="cover_letter_used">
+        <option value="yes" {% if application.cover_letter_used == "yes" %}selected{% endif %}>Yes</option>
+        <option value="no" {% if application.cover_letter_used == "no" %}selected{% endif %}>No</option>
+      </select>
+    </label>
+    <label class="full-width">Follow-Up Tasks
+      <textarea name="follow_up_tasks" rows="5" placeholder="One task per line">{{ application.follow_up_tasks }}</textarea>
+    </label>
+    <label class="full-width">Notes
+      <textarea name="notes" rows="5">{{ application.notes }}</textarea>
+    </label>
+    <div class="form-actions full-width">
+      <button class="button" type="submit">{{ "Save Changes" if editing else "Create Application" }}</button>
+      <a class="button button-secondary" href="{{ url_for('main.application_list') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

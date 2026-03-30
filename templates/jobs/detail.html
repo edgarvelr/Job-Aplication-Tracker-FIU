@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }} | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="detail-header">
+    <div>
+      <p class="eyebrow">Job Detail</p>
+      <h1>{{ job.title }}</h1>
+      <p>{{ job.company_name }} • {{ job.location or "Location not set" }}</p>
+    </div>
+    <a class="button" href="{{ url_for('main.job_edit', job_id=job.job_id) }}">Edit Job</a>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <h2>Role Snapshot</h2>
+      <p><strong>Employment Type:</strong> {{ job.employment_type or "—" }}</p>
+      <p><strong>Salary:</strong> {{ job.salary_range or "—" }}</p>
+      <p><strong>Posted:</strong> {{ job.posted_date or "—" }}</p>
+      <p><strong>Deadline:</strong> {{ job.application_deadline or "—" }}</p>
+      <p><strong>Description:</strong> {{ job.description or "—" }}</p>
+    </article>
+    <article class="panel">
+      <h2>Required Skills</h2>
+      {% if job.required_skills %}
+        <ul class="chip-list">
+          {% for skill in job.required_skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No required skills listed.</p>
+      {% endif %}
+      <h2>Preferred Skills</h2>
+      {% if job.preferred_skills %}
+        <ul class="chip-list">
+          {% for skill in job.preferred_skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No preferred skills listed.</p>
+      {% endif %}
+    </article>
+    <article class="panel">
+      <h2>Applications for This Job</h2>
+      {% if applications %}
+        <ul class="detail-list">
+          {% for application in applications %}
+            <li><a href="{{ url_for('main.application_detail', application_id=application.application_id) }}">Application #{{ application.application_id }}</a> • {{ application.status }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">No applications tied to this role yet.</p>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}

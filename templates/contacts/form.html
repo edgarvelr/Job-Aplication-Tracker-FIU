@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit" if editing else "New" }} Contact | Job Application Tracker{% endblock %}
+{% block content %}
+  <section class="section-heading">
+    <div>
+      <p class="eyebrow">Contacts</p>
+      <h1>{{ "Edit contact" if editing else "Add contact" }}</h1>
+    </div>
+  </section>
+
+  <form class="form-card" method="post">
+    <label>Company
+      <select name="company_id" required>
+        <option value="">Select a company</option>
+        {% for company in companies %}
+          <option value="{{ company.company_id }}" {% if contact.company_id == company.company_id|string %}selected{% endif %}>{{ company.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Full Name
+      <input type="text" name="full_name" value="{{ contact.full_name }}" required>
+    </label>
+    <label>Email
+      <input type="email" name="email" value="{{ contact.email }}">
+    </label>
+    <label>Phone
+      <input type="text" name="phone" value="{{ contact.phone }}">
+    </label>
+    <label>Role Title
+      <input type="text" name="role_title" value="{{ contact.role_title }}">
+    </label>
+    <label>Relationship Type
+      <input type="text" name="relationship_type" value="{{ contact.relationship_type }}" placeholder="Recruiter, mentor, hiring manager">
+    </label>
+    <label>LinkedIn URL
+      <input type="url" name="linkedin_url" value="{{ contact.linkedin_url }}">
+    </label>
+    <label class="full-width">Topics Discussed
+      <textarea name="topics_discussed" rows="5" placeholder="One topic per line">{{ contact.topics_discussed }}</textarea>
+    </label>
+    <label class="full-width">Notes
+      <textarea name="notes" rows="5">{{ contact.notes }}</textarea>
+    </label>
+    <div class="form-actions full-width">
+      <button class="button" type="submit">{{ "Save Changes" if editing else "Create Contact" }}</button>
+      <a class="button button-secondary" href="{{ url_for('main.contact_list') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}
