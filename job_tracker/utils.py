@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 
 def parse_lines(value: str) -> list[str]:
@@ -9,6 +10,18 @@ def parse_lines(value: str) -> list[str]:
 
 def parse_csv(value: str) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def parse_skills(value: str) -> list[str]:
+    parts = re.split(r"[\n,;]+", value)
+    return [part.strip() for part in parts if part.strip()]
+
+
+def expand_skills(skills: list[str]) -> list[str]:
+    expanded = []
+    for skill in skills:
+        expanded.extend(parse_skills(skill))
+    return expanded
 
 
 def json_dumps(value: list[str]) -> str:
@@ -24,4 +37,4 @@ def json_loads(value):
 
 
 def normalize_skills(skills: list[str]) -> list[str]:
-    return sorted({skill.strip().lower() for skill in skills if skill.strip()})
+    return sorted({skill.lower() for skill in expand_skills(skills)})

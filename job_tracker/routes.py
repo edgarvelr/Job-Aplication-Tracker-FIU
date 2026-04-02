@@ -5,7 +5,7 @@ from datetime import date
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
 from .db import get_cursor
-from .utils import json_dumps, json_loads, normalize_skills, parse_csv, parse_lines
+from .utils import expand_skills, json_dumps, json_loads, normalize_skills, parse_csv, parse_lines, parse_skills
 
 main = Blueprint("main", __name__)
 
@@ -345,8 +345,8 @@ def job_create():
                     job["posted_date"],
                     job["application_deadline"],
                     job["description"],
-                    json_dumps(parse_lines(job["required_skills"])),
-                    json_dumps(parse_lines(job["preferred_skills"])),
+                    json_dumps(parse_skills(job["required_skills"])),
+                    json_dumps(parse_skills(job["preferred_skills"])),
                 ),
             )
             flash("Job created successfully.", "success")
@@ -367,8 +367,8 @@ def job_edit(job_id: int):
         "posted_date": row["posted_date"].isoformat() if row["posted_date"] else "",
         "application_deadline": row["application_deadline"].isoformat() if row["application_deadline"] else "",
         "description": row["description"] or "",
-        "required_skills": "\n".join(json_loads(row["required_skills_json"])),
-        "preferred_skills": "\n".join(json_loads(row["preferred_skills_json"])),
+        "required_skills": "\n".join(expand_skills(json_loads(row["required_skills_json"]))),
+        "preferred_skills": "\n".join(expand_skills(json_loads(row["preferred_skills_json"]))),
     }
     if request.method == "POST":
         errors = []
@@ -405,8 +405,8 @@ def job_edit(job_id: int):
                     job["posted_date"],
                     job["application_deadline"],
                     job["description"],
-                    json_dumps(parse_lines(job["required_skills"])),
-                    json_dumps(parse_lines(job["preferred_skills"])),
+                    json_dumps(parse_skills(job["required_skills"])),
+                    json_dumps(parse_skills(job["preferred_skills"])),
                     job_id,
                 ),
             )
