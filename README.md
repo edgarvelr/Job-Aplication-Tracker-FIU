@@ -4,19 +4,10 @@ A full-stack Flask + MySQL web app for tracking companies, jobs, applications, c
 
 ## Demo Video
 
-The project demo video is included in this repository as a Git LFS-tracked `.mov` file.
+The project demo video is included directly in this repository as a compressed `.mov` file.
 
-- YouTube fallback: https://youtu.be/WWr6KFsNczI
-- Local repo video file: `shortened project vid.mov`
-
-If you clone this repository and want to view the local `.mov` file, install Git LFS first and pull LFS assets after cloning:
-
-```powershell
-git lfs install
-git clone https://github.com/edgarvelr/Job-Aplication-Tracker-FIU.git
-cd Job-Aplication-Tracker-FIU
-git lfs pull
-```
+- YouTube higher-quality version: https://youtu.be/WWr6KFsNczI
+- Local repo video file: `short project vid.mov`
 
 ## Features
 
@@ -90,4 +81,4 @@ python app.py
 - Delete actions use MySQL foreign key cascades for related child records.
 - The Job Match feature compares entered skills against each job's `required_skills_json`.
 - Add at least one company before creating jobs, and at least one job before creating applications.
-- The demo video uses Git LFS. If Git LFS is not installed, cloning the repo will fetch a pointer file instead of the actual video.
+- The local demo video is a compressed version for easier repository download; the YouTube link above has the higher-quality version.
